@@ -15,9 +15,10 @@ func Base(myarr []string) []string {
 		}
 		if cleanaarr[ind] == "(hex)" {
 			j := ind - 1
-			for cleanaarr[j] == "" && j >= 0 {
+			for cleanaarr[j] == "" && j > 0 {
 				j--
 			}
+			
 			decimalValue, err := strconv.ParseInt(cleanaarr[j], 16, 64)
 			if err != nil {
 				cleanaarr[ind] = ""
@@ -29,7 +30,7 @@ func Base(myarr []string) []string {
 		}
 		if cleanaarr[ind] == "(bin)" {
 			j := ind - 1
-			for cleanaarr[j] == "" && j >= 0 {
+			for cleanaarr[j] == "" && j > 0 {
 				j--
 			}
 			decimalValue, err := strconv.ParseInt(cleanaarr[j], 2, 64)

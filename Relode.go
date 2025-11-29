@@ -6,6 +6,20 @@ import (
 	"strings"
 )
 
+func normalizeSpaces(s string) string {
+	lastcopy := ""
+	for i := 0; i < len(s); i++ {
+		if s[i] != ' ' || (i > 0 && s[i-1] != ' ') {
+			lastcopy += string(s[i])
+		}
+	}
+
+	if len(lastcopy) > 0 && lastcopy[0] == ' ' {
+		lastcopy = lastcopy[1:]
+	}
+	return lastcopy
+}
+
 func proses(cleanarr []string) []string {
 	myarr := Clean(cleanarr)
 	myarr = Base(myarr)
@@ -18,9 +32,8 @@ func proses(cleanarr []string) []string {
 	myarr = Nlow(myarr)
 	myarr = Punct(myarr)
 	myarr = Quot(myarr)
-	myarr = Punct(myarr)
+	// myarr = Punct(myarr)
 	myarr = Vol(myarr)
-
 	return Clean(myarr)
 }
 
@@ -60,21 +73,30 @@ func Relode() {
 			lines = ""
 		}
 	}
-
-	lastcopy := ""
+	text := ""
 	for ind, val := range lastarr {
-
-		for _, sval := range val {
-			if sval == "()" || sval == "(" || sval == ")" {
-				lastcopy += sval
+		i := 0
+		for i = 0; i < len(val); i++ {
+			j := i
+			if val[i] == "()" || val[i][0] == '(' || val[i][0] == ')' {
+				text += val[i]
+			} else if i < len(val)-1 && i > 0 && (val[i+1] == "()" || val[i+1] == "(" || val[j+1] == ")" && val[j-1] == "()" || val[j-1] == "(" || val[j-1] == ")") {
+				text += val[i]
 			} else {
-				lastcopy += sval + " "
+				text += " " + val[i] + " "
 			}
+			// this is if we wante not adding the sapce(up)space => sapcespace
+			// else {
+			// 	text +=  val[i]
+			// }
 		}
+
 		if ind < len(lastarr)-1 {
-			lastcopy += "\n"
+			text += "\n"
 		}
 	}
+
+	lastcopy := normalizeSpaces(text)
 
 	start := 0
 	for ind, val := range os.Args[2] {

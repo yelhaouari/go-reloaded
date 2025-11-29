@@ -32,6 +32,7 @@ func SPlit(str string) []string {
 			textcopy = ""
 			flage = false
 			continue
+
 		}
 
 		if flage {

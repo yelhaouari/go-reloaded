@@ -18,11 +18,12 @@ func Quot(myarr []string) []string {
 			j := 0
 			for j = i + 1; j < len(text); j++ {
 				if text[j] == '\'' {
-					Ftext += " " + string(text[i]) + strings.TrimSpace(string(text[i+1:j])) + string(text[j]) + " "
+					Ftext +=  string(text[i]) + strings.TrimSpace(string(text[i+1:j])) + string(text[j]) 
+					// Ftext += " " + string(text[i]) + strings.TrimSpace(string(text[i+1:j])) + string(text[j]) + " "
 					i = j
 					break
 				} else if j == len(text)-1 {
-					Ftext += string(text[j-1])
+					Ftext += string(text[i])
 				}
 			}
 		} else {
