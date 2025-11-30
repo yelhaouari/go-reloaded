@@ -24,12 +24,12 @@ func proses(cleanarr []string) []string {
 	myarr := Clean(cleanarr)
 	myarr = Base(myarr)
 	myarr = Clean(myarr)
-	myarr = Cap(myarr)
 	myarr = Up(myarr)
 	myarr = Low(myarr)
-	myarr = Ncap(myarr)
+	myarr = Cap(myarr)
 	myarr = Nup(myarr)
 	myarr = Nlow(myarr)
+	myarr = Ncap(myarr)
 	myarr = Punct(myarr)
 	myarr = Quot(myarr)
 	// myarr = Punct(myarr)
@@ -78,15 +78,19 @@ func Relode() {
 		i := 0
 		for i = 0; i < len(val); i++ {
 			j := i
-			if val[i] == "()" || val[i][0] == '(' || val[i][0] == ')' {
+			if val[i] == "()" {
 				text += val[i]
 			} else if i < len(val)-1 && i > 0 && (val[i+1] == "()" || val[i+1] == "(" || val[j+1] == ")" && val[j-1] == "()" || val[j-1] == "(" || val[j-1] == ")") {
 				text += val[i]
 			} else {
-				text += " " + val[i] + " "
+				if i > 0 && (val[i-1] == "()" || val[i-1] == "(" || val[i-1] == ")") {
+					text += val[i]
+				} else {
+					text += " " + val[i]
+				}
 			}
 			// this is if we wante not adding the sapce(up)space => sapcespace
-			// else {
+			//  else {
 			// 	text +=  val[i]
 			// }
 		}
