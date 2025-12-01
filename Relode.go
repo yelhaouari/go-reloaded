@@ -6,7 +6,8 @@ import (
 	"strings"
 )
 
-func normalizeSpaces(s string) string {
+func normalizeSpaces(str string) string {
+	s := []rune(str)
 	lastcopy := ""
 	for i := 0; i < len(s); i++ {
 		if s[i] != ' ' || (i > 0 && s[i-1] != ' ') {
@@ -22,17 +23,36 @@ func normalizeSpaces(s string) string {
 
 func proses(cleanarr []string) []string {
 	myarr := Clean(cleanarr)
-	myarr = Base(myarr)
+	for _, val := range cleanarr {
+		if val == "(hex)" {
+			myarr = Base(myarr)
+
+		} else if val == "(bin)" {
+			myarr = Base(myarr)
+
+		} else if val == "(cap)" {
+			myarr = Cap(myarr)
+
+		} else if val == "(low)" {
+			myarr = Low(myarr)
+
+		} else if val == "(up)" {
+			myarr = Up(myarr)
+
+		} else if strings.Contains(val, "(cap, ") {
+			myarr = Ncap(myarr)
+
+		} else if strings.Contains(val, "(low, ") {
+			myarr = Nlow(myarr)
+
+		} else if strings.Contains(val, "(up, ") {
+			myarr = Nup(myarr)
+
+		}
+	}
 	myarr = Clean(myarr)
-	myarr = Up(myarr)
-	myarr = Low(myarr)
-	myarr = Cap(myarr)
-	myarr = Nup(myarr)
-	myarr = Nlow(myarr)
-	myarr = Ncap(myarr)
 	myarr = Punct(myarr)
 	myarr = Quot(myarr)
-	// myarr = Punct(myarr)
 	myarr = Vol(myarr)
 	return Clean(myarr)
 }
@@ -85,13 +105,16 @@ func Relode() {
 			} else {
 				if i > 0 && (val[i-1] == "()" || val[i-1] == "(" || val[i-1] == ")") {
 					text += val[i]
-				} else {
+				} else if i > 0 {
 					text += " " + val[i]
+				} else {
+					text += val[i]
 				}
 			}
+
 			// this is if we wante not adding the sapce(up)space => sapcespace
-			//  else {
-			// 	text +=  val[i]
+			// else {
+			// 	text += val[i]
 			// }
 		}
 
