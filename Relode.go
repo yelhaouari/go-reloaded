@@ -26,7 +26,6 @@ func proses(cleanarr []string) []string {
 	for _, val := range cleanarr {
 		if val == "(hex)" {
 			myarr = Base(myarr)
-
 		} else if val == "(bin)" {
 			myarr = Base(myarr)
 
@@ -38,6 +37,7 @@ func proses(cleanarr []string) []string {
 
 		} else if val == "(up)" {
 			myarr = Up(myarr)
+			fmt.Println(myarr)
 
 		} else if strings.Contains(val, "(cap, ") {
 			myarr = Ncap(myarr)
@@ -50,9 +50,14 @@ func proses(cleanarr []string) []string {
 
 		}
 	}
+	
+	
 	myarr = Clean(myarr)
 	myarr = Punct(myarr)
+	
+	
 	myarr = Quot(myarr)
+	fmt.Println(myarr)
 	myarr = Vol(myarr)
 	return Clean(myarr)
 }
@@ -80,6 +85,8 @@ func Relode() {
 		if val != '\n' {
 			lines += string(val)
 		} else if val == '\n' {
+			
+			
 			myarr := SPlit(lines)
 			myarr = proses(myarr)
 			lastarr = append(lastarr, myarr)
@@ -88,6 +95,7 @@ func Relode() {
 		if ind == len(fContent)-1 && lines != "" {
 			myarr := SPlit(lines)
 			myarr = proses(myarr)
+			
 
 			lastarr = append(lastarr, myarr)
 			lines = ""
@@ -97,24 +105,24 @@ func Relode() {
 	for ind, val := range lastarr {
 		i := 0
 		for i = 0; i < len(val); i++ {
-			j := i
-			if val[i] == "()" {
-				text += val[i]
-			} else if i < len(val)-1 && i > 0 && (val[i+1] == "()" || val[i+1] == "(" || val[j+1] == ")" && val[j-1] == "()" || val[j-1] == "(" || val[j-1] == ")") {
-				text += val[i]
-			} else {
-				if i > 0 && (val[i-1] == "()" || val[i-1] == "(" || val[i-1] == ")") {
-					text += val[i]
-				} else if i > 0 {
-					text += " " + val[i]
-				} else {
-					text += val[i]
-				}
-			}
+			// j := i
+			// if val[i] == "()" {
+			// 	text += val[i]
+			// } else if i < len(val)-1 && i > 0 && (val[i+1] == "()" || val[i+1] == "(" || val[j+1] == ")" && val[j-1] == "()" || val[j-1] == "(" || val[j-1] == ")") {
+			// 	text += val[i]
+			// } else {
+			// 	if i > 0 && (val[i-1] == "()" || val[i-1] == "(" || val[i-1] == ")") {
+			// 		text += val[i]
+			// 	} else if i > 0 {
+			// 		text += " " + val[i]
+			// 	} else {
+			// 		text += val[i]
+			// 	}
+			// }
 
 			// this is if we wante not adding the sapce(up)space => sapcespace
 			// else {
-			// 	text += val[i]
+				text += val[i]
 			// }
 		}
 

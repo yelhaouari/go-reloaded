@@ -19,10 +19,12 @@ func SPlit(str string) []string {
 	i := 0
 	flage := false
 	for i = 0; i < len(nextext)-1; i++ {
-
+		
 		if nextext[i] == '(' {
-			myarr = append(myarr, textcopy)
-			textcopy = ""
+			if len(textcopy) >= 1 {
+				myarr = append(myarr, textcopy)
+				textcopy = ""
+			}
 			flage = true
 		}
 
@@ -48,7 +50,7 @@ func SPlit(str string) []string {
 			textcopy += string(nextext[i])
 			continue
 		}
-		if nextext[i] != '\n' && nextext[i] != ' ' {
+		if nextext[i] != '\n' {
 			textcopy += string(nextext[i])
 		}
 		if nextext[i] == '\n' {
@@ -71,6 +73,6 @@ func SPlit(str string) []string {
 
 		}
 	}
-
+	
 	return myarr
 }

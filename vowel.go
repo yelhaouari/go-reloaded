@@ -2,6 +2,7 @@ package Relode
 
 func Vol(myarr []string) []string {
 	cleanaar := Clean(myarr)
+	
 
 	for i := 0; i < len(cleanaar)-1; i++ {
 

@@ -6,34 +6,14 @@ import (
 
 func Punct(myarr []string) []string {
 	copy := ""
-
-	var cleanarr []string
-
-	if len(Clean(myarr)) == 1 {
-		if strings.Contains(Clean(myarr)[0], ".") || strings.Contains(Clean(myarr)[0], ",") || strings.Contains(Clean(myarr)[0], "?") || strings.Contains(Clean(myarr)[0], ";") || strings.Contains(Clean(myarr)[0], ":") || strings.Contains(Clean(myarr)[0], "!") {
-			if len(myarr[0]) > 1 {
-				cleanarr = append(cleanarr, string(Clean(myarr)[0][0:]))
-				cleanarr = Clean(cleanarr)
-			} else {
-				return Clean(myarr)
-			}
-		} else {
-			if len(Clean(myarr)) > 1 {
-				cleanarr = strings.Split(myarr[0], " ")
-			} else {
-				return myarr
-			}
-		}
-	} else {
-		cleanarr = Clean(myarr)
-	}
-
+	cleanarr := myarr
 	if len(cleanarr) >= 1 {
+		
 		ind := 0
 		for ind = 0; ind < len(cleanarr)-1; ind++ {
 			i := 0
-			cleanarr[ind] = strings.TrimSpace(cleanarr[ind])
 			if strings.Contains(cleanarr[ind], ".") || strings.Contains(cleanarr[ind], ",") || strings.Contains(cleanarr[ind], "?") || strings.Contains(cleanarr[ind], ";") || strings.Contains(cleanarr[ind], ":") || strings.Contains(cleanarr[ind], "!") {
+				cleanarr[ind] = strings.TrimSpace(cleanarr[ind])
 
 				mytext := []rune(strings.TrimSpace(cleanarr[ind]))
 
@@ -48,22 +28,35 @@ func Punct(myarr []string) []string {
 						copy += string(mytext[i])
 					}
 				}
-				if strings.TrimSpace(cleanarr[ind+1])[0] == '.' || strings.TrimSpace(cleanarr[ind+1])[0] == ',' || strings.TrimSpace(cleanarr[ind+1])[0] == '?' || strings.TrimSpace(cleanarr[ind+1])[0] == ';' || strings.TrimSpace(cleanarr[ind+1])[0] == ':' || strings.TrimSpace(cleanarr[ind+1])[0] == '!' {
+				count := 1
+				for ind + count < len(cleanarr)-1 && cleanarr[ind + count] == " "{
+					
+					count ++
+				}
+
+				if cleanarr[ind+count][0] == '.' || cleanarr[ind+count][0] == ',' || cleanarr[ind+count][0] == '?' || cleanarr[ind+count][0] == ';' || cleanarr[ind+count][0] == ':' || cleanarr[ind+count][0] == '!' {
 					copy += string(mytext[i])
 				} else {
+					
 					copy += string(mytext[i]) + " "
 				}
 
 			} else {
-				if strings.TrimSpace(cleanarr[ind+1])[0] == '.' || strings.TrimSpace(cleanarr[ind+1])[0] == ',' || strings.TrimSpace(cleanarr[ind+1])[0] == '?' || strings.TrimSpace(cleanarr[ind+1])[0] == ';' || strings.TrimSpace(cleanarr[ind+1])[0] == ':' || strings.TrimSpace(cleanarr[ind+1])[0] == '!' {
-					copy += cleanarr[ind]
+				count := 1
+				for ind + count < len(cleanarr)-1 && cleanarr[ind + count] == " "{
+					count ++
+				}
+				
+				if strings.Contains(cleanarr[ind+count], ".") || strings.Contains(cleanarr[ind+count], ",") || strings.Contains(cleanarr[ind+count], "?") || strings.Contains(cleanarr[ind+count], ";") || strings.Contains(cleanarr[ind+count], ":") || strings.Contains(cleanarr[ind+count], "!") {
+					copy += strings.TrimSpace(cleanarr[ind])
 				} else {
-					copy += " " + cleanarr[ind] + " "
+					
+					copy +=  cleanarr[ind] 
 				}
 			}
-
 		}
-		if cleanarr[ind][0] == '.' || cleanarr[ind][0] == ',' || cleanarr[ind][0] == '?' || cleanarr[ind][0] == ';' || cleanarr[ind][0] == ':' || cleanarr[ind][0] == '!' {
+
+		if strings.Contains(cleanarr[ind], ".") || strings.Contains(cleanarr[ind], ",") || strings.Contains(cleanarr[ind], "?") || strings.Contains(cleanarr[ind], ";") || strings.Contains(cleanarr[ind], ":") || strings.Contains(cleanarr[ind], "!") {
 
 			i := 0
 			mytext := []rune(cleanarr[ind])
@@ -113,6 +106,6 @@ func Punct(myarr []string) []string {
 		}
 
 	}
-
-	return strings.Split(copy, " ")
+	
+	return SPlit(copy)
 }
