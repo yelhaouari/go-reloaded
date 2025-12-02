@@ -7,6 +7,7 @@ import (
 )
 
 func normalizeSpaces(str string) string {
+	fmt.Println(str)
 	s := []rune(str)
 	lastcopy := ""
 	for i := 0; i < len(s); i++ {
@@ -23,41 +24,17 @@ func normalizeSpaces(str string) string {
 
 func proses(cleanarr []string) []string {
 	myarr := Clean(cleanarr)
-	for _, val := range cleanarr {
-		if val == "(hex)" {
-			myarr = Base(myarr)
-		} else if val == "(bin)" {
-			myarr = Base(myarr)
-
-		} else if val == "(cap)" {
-			myarr = Cap(myarr)
-
-		} else if val == "(low)" {
-			myarr = Low(myarr)
-
-		} else if val == "(up)" {
-			myarr = Up(myarr)
-			fmt.Println(myarr)
-
-		} else if strings.Contains(val, "(cap, ") {
-			myarr = Ncap(myarr)
-
-		} else if strings.Contains(val, "(low, ") {
-			myarr = Nlow(myarr)
-
-		} else if strings.Contains(val, "(up, ") {
-			myarr = Nup(myarr)
-
-		}
-	}
-	
-	
+	myarr = Base(myarr)
+	fmt.Println(myarr[0] + "<")
+	myarr = Up(myarr)
+	myarr = Low(myarr)
+	myarr = Cap(myarr)
+	myarr = Nup(myarr)
+	myarr = Nlow(myarr)
+	myarr = Ncap(myarr)
 	myarr = Clean(myarr)
 	myarr = Punct(myarr)
-	
-	
 	myarr = Quot(myarr)
-	fmt.Println(myarr)
 	myarr = Vol(myarr)
 	return Clean(myarr)
 }
@@ -85,17 +62,16 @@ func Relode() {
 		if val != '\n' {
 			lines += string(val)
 		} else if val == '\n' {
-			
-			
+			lines = strings.TrimSpace(lines)
 			myarr := SPlit(lines)
 			myarr = proses(myarr)
 			lastarr = append(lastarr, myarr)
 			lines = ""
 		}
 		if ind == len(fContent)-1 && lines != "" {
+			lines = strings.TrimSpace(lines)
 			myarr := SPlit(lines)
 			myarr = proses(myarr)
-			
 
 			lastarr = append(lastarr, myarr)
 			lines = ""
@@ -105,47 +81,23 @@ func Relode() {
 	for ind, val := range lastarr {
 		i := 0
 		for i = 0; i < len(val); i++ {
-			// j := i
-			// if val[i] == "()" {
-			// 	text += val[i]
-			// } else if i < len(val)-1 && i > 0 && (val[i+1] == "()" || val[i+1] == "(" || val[j+1] == ")" && val[j-1] == "()" || val[j-1] == "(" || val[j-1] == ")") {
-			// 	text += val[i]
-			// } else {
-			// 	if i > 0 && (val[i-1] == "()" || val[i-1] == "(" || val[i-1] == ")") {
-			// 		text += val[i]
-			// 	} else if i > 0 {
-			// 		text += " " + val[i]
-			// 	} else {
-			// 		text += val[i]
-			// 	}
-			// }
-
-			// this is if we wante not adding the sapce(up)space => sapcespace
-			// else {
-				text += val[i]
-			// }
+			text += val[i]
 		}
-
 		if ind < len(lastarr)-1 {
+			text = strings.TrimSpace(text)
 			text += "\n"
+
 		}
 	}
 
 	lastcopy := normalizeSpaces(text)
 
-	start := 0
-	for ind, val := range os.Args[2] {
-		if val == '.' {
-			start = ind
-			break
-		}
-	}
-	if os.Args[2][start:] == ".txt" && len(os.Args[2]) > 5 {
+	if strings.HasSuffix(os.Args[2], ".txt") && len(os.Args[2]) > 5 {
 		myfile, err := os.Create(os.Args[2])
 		if err != nil {
 			fmt.Printf("we can not creat this file")
 		}
-		_, err = myfile.WriteString(strings.Trim(lastcopy, " "))
+		_, err = myfile.WriteString(strings.TrimSpace(lastcopy))
 		if err != nil {
 			fmt.Printf("we can not copyed this line")
 		}

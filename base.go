@@ -8,18 +8,17 @@ import (
 func Base(myarr []string) []string {
 	cleanaarr := Clean(myarr)
 	for ind := 0; ind < len(cleanaarr); ind++ {
-		cleanaarr[ind] = strings.TrimSpace(cleanaarr[ind])
+
 		if ind == 0 && cleanaarr[ind] == "(hex)" || ind == 0 && cleanaarr[ind] == "(bin)" {
 			cleanaarr[ind] = ""
 			continue
 		}
-		if cleanaarr[ind] == "(hex)" {
+		if strings.TrimSpace(cleanaarr[ind]) == "(hex)" {
 			j := ind - 1
 			for cleanaarr[j] == "" && j > 0 {
 				j--
 			}
-			
-			decimalValue, err := strconv.ParseInt(cleanaarr[j], 16, 64)
+			decimalValue, err := strconv.ParseInt(strings.TrimSpace(cleanaarr[j]), 16, 64)
 			if err != nil {
 				cleanaarr[ind] = ""
 				continue
@@ -28,12 +27,12 @@ func Base(myarr []string) []string {
 			}
 			cleanaarr[ind] = ""
 		}
-		if cleanaarr[ind] == "(bin)" {
+		if strings.TrimSpace(cleanaarr[ind]) == "(bin)" {
 			j := ind - 1
 			for cleanaarr[j] == "" && j > 0 {
 				j--
 			}
-			decimalValue, err := strconv.ParseInt(cleanaarr[j], 2, 64)
+			decimalValue, err := strconv.ParseInt(strings.TrimSpace(cleanaarr[j]), 2, 64)
 			if err != nil {
 				cleanaarr[ind] = ""
 				continue

@@ -13,15 +13,15 @@ func cheak(str string, ind int) bool {
 }
 
 func SPlit(str string) []string {
+	str += " "
 	textcopy := ""
 	var myarr []string
 	nextext := []rune(str)
 	i := 0
 	flage := false
-	for i = 0; i < len(nextext)-1; i++ {
-		
+	for i = 0; i < len(nextext); i++ {
 		if nextext[i] == '(' {
-			if len(textcopy) >= 1 {
+			if textcopy != "" {
 				myarr = append(myarr, textcopy)
 				textcopy = ""
 			}
@@ -30,20 +30,23 @@ func SPlit(str string) []string {
 
 		if nextext[i] == ')' {
 			textcopy += ")"
-			myarr = append(myarr, textcopy)
-			textcopy = ""
+			if textcopy != "" {
+				myarr = append(myarr, textcopy)
+				textcopy = ""
+			}
 			flage = false
 			continue
-
 		}
 
 		if flage {
-			if cheak(str, i) && nextext[i] == ' ' {
+			if cheak(str, i+1) {
+
 				if textcopy != "" {
 					myarr = append(myarr, textcopy)
 					textcopy = ""
 				}
 			}
+
 		}
 
 		if flage {
@@ -57,22 +60,14 @@ func SPlit(str string) []string {
 			textcopy += "\n"
 		}
 
-		if nextext[i] == ' ' && !flage {
+		if !flage && nextext[i] == ' ' {
+
 			if textcopy != "" {
+
 				myarr = append(myarr, textcopy)
 				textcopy = ""
 			}
 		}
 	}
-	if i < len(nextext) {
-
-		textcopy += string(nextext[i])
-		if textcopy != "" {
-			myarr = append(myarr, textcopy)
-			textcopy = ""
-
-		}
-	}
-	
 	return myarr
 }

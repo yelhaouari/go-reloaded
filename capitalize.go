@@ -44,11 +44,10 @@ func Ncap(myarr []string) []string {
 func Cap(myarr []string) []string {
 	cleanarr := Clean(myarr)
 	for ind, val := range cleanarr {
-		if strings.TrimSpace(strings.TrimSpace(val)) == "(cap)" {
 
+		if strings.TrimSpace(strings.TrimSpace(val)) == "(cap)" {
 			for i := ind - 1; i >= 0; i-- {
 				if cleanarr[i] != "\n" && cleanarr[i] != " " && cleanarr[i] != "" {
-
 					stringe := []rune(strings.TrimSpace(cleanarr[i]))
 					stringe[0] = unicode.ToTitle(stringe[0])
 					cleanarr[i] = string(stringe[0]) + strings.ToLower(string(stringe[1:]))

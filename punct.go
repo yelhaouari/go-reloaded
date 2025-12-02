@@ -8,13 +8,12 @@ func Punct(myarr []string) []string {
 	copy := ""
 	cleanarr := myarr
 	if len(cleanarr) >= 1 {
-		
+
 		ind := 0
 		for ind = 0; ind < len(cleanarr)-1; ind++ {
 			i := 0
 			if strings.Contains(cleanarr[ind], ".") || strings.Contains(cleanarr[ind], ",") || strings.Contains(cleanarr[ind], "?") || strings.Contains(cleanarr[ind], ";") || strings.Contains(cleanarr[ind], ":") || strings.Contains(cleanarr[ind], "!") {
 				cleanarr[ind] = strings.TrimSpace(cleanarr[ind])
-
 				mytext := []rune(strings.TrimSpace(cleanarr[ind]))
 
 				for i = 0; i < len(mytext)-1; i++ {
@@ -29,29 +28,28 @@ func Punct(myarr []string) []string {
 					}
 				}
 				count := 1
-				for ind + count < len(cleanarr)-1 && cleanarr[ind + count] == " "{
-					
-					count ++
-				}
+				for ind+count < len(cleanarr)-1 && cleanarr[ind+count] == " " {
 
+					count++
+				}
 				if cleanarr[ind+count][0] == '.' || cleanarr[ind+count][0] == ',' || cleanarr[ind+count][0] == '?' || cleanarr[ind+count][0] == ';' || cleanarr[ind+count][0] == ':' || cleanarr[ind+count][0] == '!' {
 					copy += string(mytext[i])
 				} else {
-					
+
 					copy += string(mytext[i]) + " "
 				}
 
 			} else {
+
 				count := 1
-				for ind + count < len(cleanarr)-1 && cleanarr[ind + count] == " "{
-					count ++
+				for ind+count < len(cleanarr)-1 && cleanarr[ind+count] == " " {
+					count++
 				}
-				
-				if strings.Contains(cleanarr[ind+count], ".") || strings.Contains(cleanarr[ind+count], ",") || strings.Contains(cleanarr[ind+count], "?") || strings.Contains(cleanarr[ind+count], ";") || strings.Contains(cleanarr[ind+count], ":") || strings.Contains(cleanarr[ind+count], "!") {
+
+				if cleanarr[ind+count][0] == '.' || cleanarr[ind+count][0] == ',' || cleanarr[ind+count][0] == '?' || cleanarr[ind+count][0] == ';' || cleanarr[ind+count][0] == ':' || cleanarr[ind+count][0] == '!' {
 					copy += strings.TrimSpace(cleanarr[ind])
 				} else {
-					
-					copy +=  cleanarr[ind] 
+					copy += cleanarr[ind] 
 				}
 			}
 		}
@@ -106,6 +104,6 @@ func Punct(myarr []string) []string {
 		}
 
 	}
-	
+
 	return SPlit(copy)
 }
